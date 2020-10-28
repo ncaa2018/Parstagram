@@ -31,12 +31,23 @@ class LoginViewController: UIViewController {
         
     }
     @IBAction func onSignIn(_ sender: Any) {
+        let username = usernameField.text!
+        let password = passwordField.text!
         
+        PFUser.logInWithUsername(inBackground: username, password: password) { (user, error) in //either we have a user or its nil
+            if user != nil { //successful logged in
+                self.performSegue(withIdentifier: "loginSegue", sender: nil) //go to feed
+            }
+            else{
+                print("Error: \(error?.localizedDescription)")
+            }
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
+        passwordField.isSecureTextEntry = true
     }
     
 
